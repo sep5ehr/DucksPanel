@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>__USER_NAME__ - Subscriber Portal</title>
+    <title>__USER_NAME__ - DucksPanel</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/gh/itsyebekhe/nahan@main/tailwindcss.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/sep5ehr/DucksPanel@main/tailwindcss.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -17,13 +17,13 @@
                     },
                     colors: {
                         dark: {
-                            900: '#0b0f19',
-                            800: '#111827',
-                            700: '#1f2937',
+                            900: '#1a1410',
+                            800: '#231c15',
+                            700: '#2e251b',
                         },
                         brand: {
-                            500: '#6366f1',
-                            600: '#4f46e5',
+                            500: '#f59e0b',
+                            600: '#d97706',
                         }
                     }
                 }
@@ -32,19 +32,22 @@
     </script>
     <style>
         :root {
-            --bg-primary: #f3f4f6;
+            /* ── Duck Light Theme ── */
+            --bg-primary: #fef9f3;
+            --bg-secondary: #fff5e6;
             --bg-card: #ffffff;
-            --bg-card-inner: #f9fafb;
-            --bg-input: #f3f4f6;
-            --border-card: #e5e7eb;
-            --border-inner: #e5e7eb;
-            --text-primary: #111827;
-            --text-secondary: #4b5563;
-            --text-muted: #9ca3af;
-            --accent: #6366f1;
-            --accent-light: #e0e7ff;
-            --accent-border: #c7d2fe;
-            --accent-hover: #4f46e5;
+            --bg-card-inner: #fff8ed;
+            --bg-input: #fff5e6;
+            --border-card: #fde4c4;
+            --border-inner: #fce7cb;
+            --text-primary: #3d2817;
+            --text-secondary: #7c5c3e;
+            --text-muted: #a8825f;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --accent-light: #fef3c7;
+            --accent-border: #fcd34d;
+            --accent-hover: #d97706;
             --green-bg: #d1fae5;
             --green-border: #a7f3d0;
             --green-text: #059669;
@@ -54,55 +57,64 @@
             --red-bg: #fee2e2;
             --red-border: #fecaca;
             --red-text: #dc2626;
-            --progress-bg: #e5e7eb;
-            --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
-            --btn-primary-bg: #6366f1;
-            --btn-primary-hover: #4f46e5;
-            --btn-secondary-bg: #f3f4f6;
-            --btn-secondary-hover: #e5e7eb;
-            --modal-bg: rgba(0,0,0,0.5);
+            --progress-bg: #fce7cb;
+            --shadow-card: 0 10px 25px -3px rgba(245, 158, 11, 0.1), 0 4px 6px -2px rgba(217, 119, 6, 0.05);
+            --shadow-hover: 0 20px 35px -5px rgba(245, 158, 11, 0.2), 0 8px 10px -4px rgba(217, 119, 6, 0.1);
+            --btn-primary-bg: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            --btn-primary-hover: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            --btn-secondary-bg: #fff5e6;
+            --btn-secondary-hover: #fef3c7;
+            --modal-bg: rgba(61, 40, 23, 0.5);
             --modal-card: #ffffff;
         }
 
         .dark {
-            --bg-primary: #0b0f19;
-            --bg-card: rgba(17, 24, 39, 0.7);
-            --bg-card-inner: rgba(31, 41, 55, 0.5);
-            --bg-input: #111827;
-            --border-card: rgba(99, 102, 241, 0.15);
-            --border-inner: rgba(99, 102, 241, 0.1);
-            --text-primary: #f9fafb;
-            --text-secondary: #9ca3af;
-            --text-muted: #6b7280;
-            --accent: #818cf8;
-            --accent-light: rgba(99, 102, 241, 0.15);
-            --accent-border: rgba(99, 102, 241, 0.3);
-            --accent-hover: #6366f1;
-            --green-bg: rgba(16, 185, 129, 0.1);
-            --green-border: rgba(16, 185, 129, 0.2);
+            /* ── Duck Dark Theme ── */
+            --bg-primary: #1a1410;
+            --bg-secondary: #231c15;
+            --bg-card: rgba(35, 28, 21, 0.85);
+            --bg-card-inner: rgba(46, 37, 27, 0.7);
+            --bg-input: #2e251b;
+            --border-card: rgba(245, 158, 11, 0.2);
+            --border-inner: rgba(245, 158, 11, 0.12);
+            --text-primary: #fef9f3;
+            --text-secondary: #d4b896;
+            --text-muted: #a8825f;
+            --accent: #fbbf24;
+            --accent-dark: #f59e0b;
+            --accent-light: rgba(245, 158, 11, 0.15);
+            --accent-border: rgba(245, 158, 11, 0.35);
+            --accent-hover: #f59e0b;
+            --green-bg: rgba(16, 185, 129, 0.12);
+            --green-border: rgba(16, 185, 129, 0.25);
             --green-text: #34d399;
-            --amber-bg: rgba(245, 158, 11, 0.1);
-            --amber-border: rgba(245, 158, 11, 0.2);
+            --amber-bg: rgba(245, 158, 11, 0.12);
+            --amber-border: rgba(245, 158, 11, 0.25);
             --amber-text: #fbbf24;
-            --red-bg: rgba(239, 68, 68, 0.1);
-            --red-border: rgba(239, 68, 68, 0.2);
+            --red-bg: rgba(239, 68, 68, 0.12);
+            --red-border: rgba(239, 68, 68, 0.25);
             --red-text: #f87171;
-            --progress-bg: rgba(31, 41, 55, 0.8);
-            --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
-            --btn-primary-bg: #6366f1;
-            --btn-primary-hover: #4f46e5;
-            --btn-secondary-bg: rgba(31, 41, 55, 0.6);
-            --btn-secondary-hover: rgba(55, 65, 81, 0.8);
-            --modal-bg: rgba(0,0,0,0.8);
-            --modal-card: #1f2937;
+            --progress-bg: rgba(46, 37, 27, 0.9);
+            --shadow-card: 0 10px 25px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            --shadow-hover: 0 20px 35px -5px rgba(245, 158, 11, 0.15), 0 8px 10px -4px rgba(0, 0, 0, 0.3);
+            --btn-primary-bg: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            --btn-primary-hover: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
+            --btn-secondary-bg: rgba(46, 37, 27, 0.8);
+            --btn-secondary-hover: rgba(61, 40, 23, 0.9);
+            --modal-bg: rgba(0, 0, 0, 0.75);
+            --modal-card: #231c15;
         }
 
         body {
             font-family: 'Inter', 'Vazirmatn', sans-serif;
             background: var(--bg-primary) !important;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(251, 191, 36, 0.06) 0%, transparent 40%) !important;
             color: var(--text-primary);
             transition: background 0.3s, color 0.3s;
             -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
         }
         [lang="fa"] body { font-family: 'Vazirmatn', sans-serif; }
         
@@ -111,8 +123,12 @@
             border: 1px solid var(--border-card) !important;
             box-shadow: var(--shadow-card) !important;
             border-radius: 1.5rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bento-card:hover {
+            box-shadow: var(--shadow-hover) !important;
+            transform: translateY(-2px);
         }
         
         .bento-inner {
@@ -127,49 +143,171 @@
             border: 1px solid var(--border-inner);
             color: var(--text-primary);
         }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+        }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 10px; 
+        }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-dark); }
         
-        .btn-primary { background: var(--btn-primary-bg); color: white; transition: all 0.2s ease; }
-        .btn-primary:hover { background: var(--btn-primary-hover); transform: translateY(-1px); }
-        .btn-secondary { background: var(--btn-secondary-bg); color: var(--text-primary); border: 1px solid var(--border-inner); transition: all 0.2s ease; }
-        .btn-secondary:hover { background: var(--btn-secondary-hover); transform: translateY(-1px); }
+        .btn-primary { 
+            background: var(--btn-primary-bg); 
+            color: white; 
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px -2px rgba(245, 158, 11, 0.4);
+        }
+        .btn-primary:hover { 
+            background: var(--btn-primary-hover); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px -2px rgba(245, 158, 11, 0.5);
+        }
+        .btn-primary:active { transform: translateY(0); }
+        
+        .btn-secondary { 
+            background: var(--btn-secondary-bg); 
+            color: var(--text-primary); 
+            border: 1px solid var(--border-inner); 
+            transition: all 0.25s ease;
+        }
+        .btn-secondary:hover { 
+            background: var(--btn-secondary-hover); 
+            transform: translateY(-2px);
+            border-color: var(--accent-border);
+        }
+        
         .text-secondary { color: var(--text-secondary); }
         .text-muted { color: var(--text-muted); }
         .progress-bar-bg { background: var(--progress-bg); }
+        .border-inner { border-color: var(--border-inner); }
+        .border-accent-border { border-color: var(--accent-border); }
         
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(15px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        @keyframes duckBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(-5deg); }
+            75% { transform: translateY(-3px) rotate(5deg); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        .duck-bounce { animation: duckBounce 3s ease-in-out infinite; }
         
-        .modal-overlay { background: var(--modal-bg); backdrop-filter: blur(8px); }
-        .modal-card { background: var(--modal-card); border: 1px solid var(--border-card); }
+        .modal-overlay { 
+            background: var(--modal-bg); 
+            backdrop-filter: blur(12px); 
+        }
+        .modal-card { 
+            background: var(--modal-card); 
+            border: 1px solid var(--border-card); 
+        }
         
         .app-btn {
             background: var(--bg-card-inner);
             border: 1px solid var(--border-inner);
             color: var(--text-primary);
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
         }
-        .app-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+        .app-btn:hover { 
+            border-color: var(--accent); 
+            color: var(--accent); 
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px -4px rgba(245, 158, 11, 0.3);
+        }
         
         .glow-effect {
             position: absolute;
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
             background: var(--accent);
-            filter: blur(80px);
-            opacity: 0.15;
+            filter: blur(100px);
+            opacity: 0.12;
             border-radius: 50%;
             pointer-events: none;
             z-index: 0;
+        }
+        
+        /* Duck watermark */
+        .duck-watermark {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 999px;
+            box-shadow: var(--shadow-card);
+            opacity: 0.85;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .duck-watermark:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        .duck-watermark img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+        }
+        .duck-watermark span {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        [dir="rtl"] .duck-watermark {
+            right: auto;
+            left: 20px;
+        }
+
+        /* Duck profile avatar */
+        .duck-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 24px;
+            object-fit: cover;
+            border: 3px solid var(--accent-border);
+            box-shadow: 0 8px 24px -4px rgba(245, 158, 11, 0.35);
+            background: var(--bg-card-inner);
+            transition: transform 0.3s ease;
+        }
+        .duck-avatar:hover {
+            transform: scale(1.05) rotate(-3deg);
+        }
+
+        /* Section headers with duck accent */
+        .duck-accent-line {
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 50%, transparent 100%);
+            border-radius: 999px;
+            margin-bottom: 12px;
         }
     </style>
 </head>
 <body class="min-h-screen py-8 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-start fade-in relative overflow-x-hidden">
     <!-- Ambient Background Glows -->
     <div class="glow-effect top-0 left-10"></div>
-    <div class="glow-effect bottom-20 right-10" style="background: #34d399;"></div>
+    <div class="glow-effect bottom-20 right-10" style="background: #fbbf24;"></div>
 
     <!-- Theme & Language Toggle -->
     <div class="w-full max-w-6xl flex justify-end items-center mb-6 z-10 relative">
@@ -192,8 +330,9 @@
         <div class="md:col-span-4 flex flex-col gap-6">
             <!-- Profile Card -->
             <div class="bento-card p-6 flex flex-col items-center text-center relative overflow-hidden">
-                <div class="absolute top-0 w-full h-24" style="background: linear-gradient(135deg, var(--accent-light) 0%, transparent 100%); opacity: 0.5;"></div>
-                <div class="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg mb-4 z-10 relative" style="background: var(--bg-card); border: 2px solid var(--accent-border); color: var(--accent);">
+                <div class="absolute top-0 w-full h-28" style="background: linear-gradient(135deg, var(--accent-light) 0%, transparent 100%); opacity: 0.7;"></div>
+                <img src="https://raw.githubusercontent.com/sep5ehr/DucksPanel/main/duck.png" alt="DucksPanel" class="duck-avatar mb-4 z-10 relative duck-bounce" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="w-20 h-20 rounded-2xl hidden items-center justify-center shadow-lg mb-4 z-10 relative" style="background: var(--bg-card); border: 2px solid var(--accent-border); color: var(--accent);">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                 </div>
                 <h1 class="text-2xl font-black tracking-tight z-10 mb-1" style="color: var(--text-primary);">__USER_NAME__</h1>
@@ -205,12 +344,13 @@
 
             <!-- Expiry & General Info -->
             <div class="bento-card p-6">
+                <div class="duck-accent-line"></div>
                 <h3 class="text-xs font-bold uppercase tracking-widest text-secondary mb-4 flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <svg class="w-4 h-4" style="color: var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     <span data-i18n="expDate">Expiration Date</span>
                 </h3>
                 <div class="flex flex-col gap-1">
-                    <span class="text-2xl font-black" style="color: var(--text-primary);">__EXPIRY_DATE__</span>
+                    <span class="text-2xl font-black" style="color: var(--accent);">__EXPIRY_DATE__</span>
                     <p class="text-xs text-muted font-medium" data-i18n="calendarLocal">Calendar Local Time</p>
                 </div>
                 <div class="mt-6 pt-5 border-t" style="border-color: var(--border-inner);">
@@ -224,7 +364,7 @@
             <!-- Support / Help -->
             <div class="bento-card p-6" style="background: linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 200%);">
                 <h3 class="text-sm font-bold flex items-center gap-2 mb-3" style="color: var(--text-primary);">
-                    <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg class="w-5 h-5" style="color: var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     Help & Support
                 </h3>
                 <p class="text-xs text-secondary mb-4 leading-relaxed">Having trouble connecting? Keep your clients updated or contact support for assistance.</p>
@@ -242,11 +382,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <!-- Total Usage -->
                 <div class="bento-card p-6 relative overflow-hidden group">
-                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-indigo-500 opacity-5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="absolute -right-6 -top-6 w-24 h-24 opacity-10 rounded-full group-hover:scale-150 transition-transform duration-500" style="background: var(--accent);"></div>
                     <div class="flex justify-between items-start mb-4 relative z-10">
                         <p class="text-xs font-bold uppercase tracking-widest text-secondary" data-i18n="totalUsage">Total Usage</p>
-                        <span class="p-2 rounded-lg" style="background: var(--bg-card-inner); border: 1px solid var(--border-inner);">
-                            <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                        <span class="p-2 rounded-lg" style="background: var(--accent-light); border: 1px solid var(--accent-border);">
+                            <svg class="w-4 h-4" style="color: var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
                         </span>
                     </div>
                     <div class="flex items-baseline gap-1.5 mb-4 relative z-10">
@@ -258,7 +398,7 @@
 
                 <!-- Daily Usage -->
                 <div class="bento-card p-6 relative overflow-hidden group">
-                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-emerald-500 opacity-5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="absolute -right-6 -top-6 w-24 h-24 opacity-10 rounded-full group-hover:scale-150 transition-transform duration-500" style="background: #10b981;"></div>
                     <div class="flex justify-between items-start mb-4 relative z-10">
                         <p class="text-xs font-bold uppercase tracking-widest text-secondary" data-i18n="dailyUsage">Daily Usage</p>
                         <span class="p-2 rounded-lg" style="background: var(--bg-card-inner); border: 1px solid var(--border-inner);">
@@ -277,25 +417,26 @@
             <div class="bento-card p-6 sm:p-8">
                 <div class="flex justify-between items-end mb-6">
                     <div>
+                        <div class="duck-accent-line"></div>
                         <h3 class="text-lg font-black flex items-center gap-2 mb-1" style="color: var(--text-primary);">
-                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            <svg class="w-5 h-5" style="color: var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
                             <span data-i18n="integrationTitle">Integration Connections</span>
                         </h3>
                         <p class="text-xs text-secondary" data-i18n="integrationDesc">Add your preferred configuration link.</p>
                     </div>
                 </div>
 
-                <div class="bento-inner p-5 sm:p-6 border border-accent-border relative overflow-hidden" style="border-color: var(--accent-border);">
+                <div class="bento-inner p-5 sm:p-6 border relative overflow-hidden" style="border-color: var(--accent-border);">
                     <div class="absolute inset-0 opacity-10 pointer-events-none" style="background: radial-gradient(circle at 100% 0%, var(--accent) 0%, transparent 40%);"></div>
                     <div class="relative z-10">
                         <h4 class="font-bold mb-2 flex items-center gap-2" style="color: var(--text-primary);">
                             <span data-i18n="universalLink">Universal Auto-Detecting Link</span>
-                            <span class="px-2 py-0.5 rounded text-[9px] uppercase tracking-wider font-bold shadow-sm" style="background: var(--accent); color: white;">Recommended</span>
+                            <span class="px-2 py-0.5 rounded text-[9px] uppercase tracking-wider font-bold shadow-sm" style="background: var(--btn-primary-bg); color: white;">Recommended</span>
                         </h4>
                         <p class="text-xs text-secondary mb-4 leading-relaxed" data-i18n="universalDesc">This URL automatically detects your client and delivers the optimal format.</p>
                         
                         <div class="flex flex-col sm:flex-row gap-3 w-full" dir="ltr">
-                            <input type="text" id="link-normal" value="__SYNC_NORMAL__" readonly class="input-field flex-1 px-4 py-3 rounded-xl text-sm font-mono w-full outline-none shadow-inner focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                            <input type="text" id="link-normal" value="__SYNC_NORMAL__" readonly class="input-field flex-1 px-4 py-3 rounded-xl text-sm font-mono w-full outline-none shadow-inner focus:ring-2 transition-shadow">
                             <div class="flex gap-2">
                                 <button onclick="copyLink('link-normal')" class="btn-primary flex-1 sm:flex-none px-6 py-3 rounded-xl text-sm font-bold shrink-0 flex justify-center items-center gap-2 shadow-md">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
@@ -309,7 +450,7 @@
                     </div>
                 </div>
 
-                <div class="mt-6 bento-inner p-5 sm:p-6 border border-accent-border relative overflow-hidden" style="border-color: var(--accent-border);">
+                <div class="mt-6 bento-inner p-5 sm:p-6 border relative overflow-hidden" style="border-color: var(--accent-border);">
                     <div class="absolute inset-0 opacity-5 pointer-events-none" style="background: radial-gradient(circle at 100% 0%, var(--accent) 0%, transparent 40%);"></div>
                     <div class="relative z-10 space-y-4">
                         <h4 class="font-bold flex items-center gap-2" style="color: var(--text-primary);">
@@ -319,85 +460,85 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <!-- Raw -->
-                            <div class="p-4 rounded-xl border border-accent-border space-y-2 bg-black/5 dark:bg-white/5" style="border-color: var(--accent-border);">
+                            <div class="p-4 rounded-xl border space-y-2 bg-black/5 dark:bg-white/5" style="border-color: var(--accent-border);">
                                 <div class="flex justify-between items-center" dir="ltr">
                                     <span class="text-xs font-bold text-left" dir="ltr" style="color: var(--text-primary);">Raw Configs (Text/URI)</span>
-                                    <span class="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded" style="background: rgba(99, 102, 241, 0.15); color: #6366f1;">RAW</span>
+                                    <span class="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded" style="background: var(--accent-light); color: var(--accent-dark);">RAW</span>
                                 </div>
                                 <div class="flex gap-2" dir="ltr">
-                                    <input type="text" id="link-raw-fmt" readonly class="input-field flex-1 px-3 py-2 rounded-lg text-xs font-mono w-full outline-none" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--accent-border);">
-                                    <button onclick="copyLink('link-raw-fmt')" class="px-3 py-2 rounded-lg text-xs font-bold bg-indigo-500 text-white flex items-center gap-1 hover:bg-indigo-600 transition-colors">
+                                    <input type="text" id="link-raw-fmt" readonly class="input-field flex-1 px-3 py-2 rounded-lg text-xs font-mono w-full outline-none">
+                                    <button onclick="copyLink('link-raw-fmt')" class="btn-primary px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-1">
                                         <span data-i18n="copy">Copy</span>
                                     </button>
-                                    <button onclick="showQRModal(document.getElementById('link-raw-fmt').value)" class="p-2 rounded-lg border border-accent-border hover:bg-white/10 flex items-center justify-center" style="border-color: var(--accent-border);">
+                                    <button onclick="showQRModal(document.getElementById('link-raw-fmt').value)" class="p-2 rounded-lg border flex items-center justify-center" style="border-color: var(--accent-border);">
                                         <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Base64 -->
-                            <div class="p-4 rounded-xl border border-accent-border space-y-2 bg-black/5 dark:bg-white/5" style="border-color: var(--accent-border);">
+                            <div class="p-4 rounded-xl border space-y-2 bg-black/5 dark:bg-white/5" style="border-color: var(--accent-border);">
                                 <div class="flex justify-between items-center" dir="ltr">
                                     <span class="text-xs font-bold text-left" dir="ltr" style="color: var(--text-primary);">Base64 Sub (V2Ray / Shadowrocket)</span>
                                     <span class="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">BASE64</span>
                                 </div>
                                 <div class="flex gap-2" dir="ltr">
-                                    <input type="text" id="link-base64-fmt" readonly class="input-field flex-1 px-3 py-2 rounded-lg text-xs font-mono w-full outline-none" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--accent-border);">
+                                    <input type="text" id="link-base64-fmt" readonly class="input-field flex-1 px-3 py-2 rounded-lg text-xs font-mono w-full outline-none">
                                     <button onclick="copyLink('link-base64-fmt')" class="px-3 py-2 rounded-lg text-xs font-bold bg-emerald-500 text-white flex items-center gap-1 hover:bg-emerald-600 transition-colors">
                                         <span data-i18n="copy">Copy</span>
                                     </button>
-                                    <button onclick="showQRModal(document.getElementById('link-base64-fmt').value)" class="p-2 rounded-lg border border-accent-border hover:bg-white/10 flex items-center justify-center" style="border-color: var(--accent-border);">
+                                    <button onclick="showQRModal(document.getElementById('link-base64-fmt').value)" class="p-2 rounded-lg border flex items-center justify-center" style="border-color: var(--accent-border);">
                                         <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Singbox -->
-                            <div class="p-4 rounded-xl border border-accent-border space-y-2 bg-black/5 dark:bg-white/5" style="border-color: var(--accent-border);">
+                            <div class="p-4 rounded-xl border space-y-2 bg-black/5 dark:bg-white/5" style="border-color: var(--accent-border);">
                                 <div class="flex justify-between items-center" dir="ltr">
                                     <span class="text-xs font-bold text-left" dir="ltr" style="color: var(--text-primary);">Sing-box Subscription (JSON)</span>
                                     <span class="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">SINGBOX</span>
                                 </div>
                                 <div class="flex gap-2" dir="ltr">
-                                    <input type="text" id="link-singbox-fmt" readonly class="input-field flex-1 px-3 py-2 rounded-lg text-xs font-mono w-full outline-none" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--accent-border);">
+                                    <input type="text" id="link-singbox-fmt" readonly class="input-field flex-1 px-3 py-2 rounded-lg text-xs font-mono w-full outline-none">
                                     <button onclick="copyLink('link-singbox-fmt')" class="px-3 py-2 rounded-lg text-xs font-bold bg-amber-500 text-white flex items-center gap-1 hover:bg-amber-600 transition-colors">
                                         <span data-i18n="copy">Copy</span>
                                     </button>
-                                    <button onclick="showQRModal(document.getElementById('link-singbox-fmt').value)" class="p-2 rounded-lg border border-accent-border hover:bg-white/10 flex items-center justify-center" style="border-color: var(--accent-border);">
+                                    <button onclick="showQRModal(document.getElementById('link-singbox-fmt').value)" class="p-2 rounded-lg border flex items-center justify-center" style="border-color: var(--accent-border);">
                                         <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Clash -->
-                            <div class="p-4 rounded-xl border border-accent-border space-y-2 bg-black/5 dark:bg-white/5" style="border-color: var(--accent-border);">
+                            <div class="p-4 rounded-xl border space-y-2 bg-black/5 dark:bg-white/5" style="border-color: var(--accent-border);">
                                 <div class="flex justify-between items-center" dir="ltr">
                                     <span class="text-xs font-bold text-left" dir="ltr" style="color: var(--text-primary);">Clash Subscription (YAML)</span>
                                     <span class="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">CLASH</span>
                                 </div>
                                 <div class="flex gap-2" dir="ltr">
-                                    <input type="text" id="link-clash-fmt" readonly class="input-field flex-1 px-3 py-2 rounded-lg text-xs font-mono w-full outline-none" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--accent-border);">
+                                    <input type="text" id="link-clash-fmt" readonly class="input-field flex-1 px-3 py-2 rounded-lg text-xs font-mono w-full outline-none">
                                     <button onclick="copyLink('link-clash-fmt')" class="px-3 py-2 rounded-lg text-xs font-bold bg-violet-500 text-white flex items-center gap-1 hover:bg-violet-600 transition-colors">
                                         <span data-i18n="copy">Copy</span>
                                     </button>
-                                    <button onclick="showQRModal(document.getElementById('link-clash-fmt').value)" class="p-2 rounded-lg border border-accent-border hover:bg-white/10 flex items-center justify-center" style="border-color: var(--accent-border);">
+                                    <button onclick="showQRModal(document.getElementById('link-clash-fmt').value)" class="p-2 rounded-lg border flex items-center justify-center" style="border-color: var(--accent-border);">
                                         <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
                                     </button>
                                 </div>
                             </div>
 
                             <!-- v2rayN JSON -->
-                            <div class="p-4 rounded-xl border border-accent-border space-y-2 bg-black/5 dark:bg-white/5" style="border-color: var(--accent-border);">
+                            <div class="p-4 rounded-xl border space-y-2 bg-black/5 dark:bg-white/5" style="border-color: var(--accent-border);">
                                 <div class="flex justify-between items-center" dir="ltr">
                                     <span class="text-xs font-bold text-left" dir="ltr" style="color: var(--text-primary);">v2rayN Subscription (JSON)</span>
                                     <span class="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded" style="background: rgba(236, 72, 153, 0.15); color: #ec4899;">V2RAYN</span>
                                 </div>
                                 <div class="flex gap-2" dir="ltr">
-                                    <input type="text" id="link-v2rayn-fmt" readonly class="input-field flex-1 px-3 py-2 rounded-lg text-xs font-mono w-full outline-none" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--accent-border);">
+                                    <input type="text" id="link-v2rayn-fmt" readonly class="input-field flex-1 px-3 py-2 rounded-lg text-xs font-mono w-full outline-none">
                                     <button onclick="copyLink('link-v2rayn-fmt')" class="px-3 py-2 rounded-lg text-xs font-bold bg-pink-500 text-white flex items-center gap-1 hover:bg-pink-600 transition-colors">
                                         <span data-i18n="copy">Copy</span>
                                     </button>
-                                    <button onclick="showQRModal(document.getElementById('link-v2rayn-fmt').value)" class="p-2 rounded-lg border border-accent-border hover:bg-white/10 flex items-center justify-center" style="border-color: var(--accent-border);">
+                                    <button onclick="showQRModal(document.getElementById('link-v2rayn-fmt').value)" class="p-2 rounded-lg border flex items-center justify-center" style="border-color: var(--accent-border);">
                                         <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
                                     </button>
                                 </div>
@@ -408,23 +549,23 @@
 
                 <div class="mt-8">
                     <h4 class="text-xs font-bold uppercase tracking-widest text-secondary mb-4 flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <svg class="w-4 h-4" style="color: var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         <span data-i18n="oneClickImport">One-Click Import</span>
                     </h4>
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                        <a id="v2rayng-link" href="v2rayng://install-sub?url=__SYNC_NORMAL__&name=__USER_NAME__" class="app-btn p-3 rounded-xl flex items-center justify-center gap-2 font-bold text-sm shadow-sm group hover:shadow-md">
+                        <a id="v2rayng-link" href="v2rayng://install-sub?url=__SYNC_NORMAL__&name=__USER_NAME__" class="app-btn p-3 rounded-xl flex items-center justify-center gap-2 font-bold text-sm shadow-sm group">
                             <span>v2rayNG</span>
                             <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                         </a>
-                        <a href="v2rayn://install-sub?url=__SYNC_NORMAL__&name=__USER_NAME__" class="app-btn p-3 rounded-xl flex items-center justify-center gap-2 font-bold text-sm shadow-sm group hover:shadow-md">
+                        <a href="v2rayn://install-sub?url=__SYNC_NORMAL__&name=__USER_NAME__" class="app-btn p-3 rounded-xl flex items-center justify-center gap-2 font-bold text-sm shadow-sm group">
                             <span>v2rayN</span>
                             <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                         </a>
-                        <a href="shadowrocket://add/sub://__SYNC_NORMAL_BASE64__?title=__USER_NAME__" class="app-btn p-3 rounded-xl flex items-center justify-center gap-2 font-bold text-sm shadow-sm group hover:shadow-md">
+                        <a href="shadowrocket://add/sub://__SYNC_NORMAL_BASE64__?title=__USER_NAME__" class="app-btn p-3 rounded-xl flex items-center justify-center gap-2 font-bold text-sm shadow-sm group">
                             <span>Shadowrocket</span>
                             <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                         </a>
-                        <a href="streisand://import/__SYNC_NORMAL__" class="app-btn p-3 rounded-xl flex items-center justify-center gap-2 font-bold text-sm shadow-sm group hover:shadow-md">
+                        <a href="streisand://import/__SYNC_NORMAL__" class="app-btn p-3 rounded-xl flex items-center justify-center gap-2 font-bold text-sm shadow-sm group">
                             <span>Streisand</span>
                             <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                         </a>
@@ -447,6 +588,12 @@
         </div>
     </div>
 
+    <!-- Duck Watermark -->
+    <a href="https://github.com/sep5ehr/DucksPanel" target="_blank" class="duck-watermark">
+        <img src="https://raw.githubusercontent.com/sep5ehr/DucksPanel/main/duck.png" alt="Duck" onerror="this.textContent='🦆'; this.style.fontSize='20px';">
+        <span>DucksPanel</span>
+    </a>
+
     <!-- QR Modal -->
     <div id="qr-modal" class="fixed inset-0 modal-overlay z-50 hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0">
         <div class="modal-card max-w-sm w-full rounded-3xl p-6 md:p-8 transform scale-95 transition-transform duration-300 shadow-2xl relative">
@@ -463,8 +610,8 @@
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-3 rounded-full shadow-2xl font-bold text-sm z-50 transition-all transform -translate-y-4 opacity-0 pointer-events-none flex items-center gap-2">
-        <svg class="w-5 h-5 text-emerald-400 dark:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 bg-amber-500 text-white px-6 py-3 rounded-full shadow-2xl font-bold text-sm z-50 transition-all transform -translate-y-4 opacity-0 pointer-events-none flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <span>Notification</span>
     </div>
 
@@ -631,7 +778,6 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             
-            // Animation
             setTimeout(() => {
                 modal.style.opacity = '1';
                 modal.querySelector('.modal-card').style.transform = 'scale(1)';
@@ -660,7 +806,6 @@
             }, 2500);
         }
 
-        
         // Fetch Client IP
         fetch('https://api.ipify.org?format=json')
             .then(r => r.json())
@@ -684,7 +829,6 @@
             applyTheme();
             applyLang();
             
-            // Base64 encode normal link for shadowrocket
             const normalLink = '__SYNC_NORMAL__';
             document.querySelectorAll('a').forEach(a => {
                 if(a.href.includes('__SYNC_NORMAL_BASE64__')) {
@@ -692,14 +836,12 @@
                 }
             });
 
-            // Set base64 flag for v2rayNG link
             const v2rayngLink = document.getElementById('v2rayng-link');
             if (v2rayngLink) {
                 const base64Url = normalLink + (normalLink.includes('?') ? '&flag=base64' : '?flag=base64');
                 v2rayngLink.href = 'v2rayng://install-sub?url=' + encodeURIComponent(base64Url) + '&name=' + encodeURIComponent('__USER_NAME__');
             }
 
-            // Populate format-specific subscription links
             const rawInput = document.getElementById('link-raw-fmt');
             const base64Input = document.getElementById('link-base64-fmt');
             const singboxInput = document.getElementById('link-singbox-fmt');
