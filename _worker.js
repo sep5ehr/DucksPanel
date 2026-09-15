@@ -1,7 +1,7 @@
 import { connect } from "cloudflare:sockets";
 
 /*
- * Project Nahan (نهان) - IoT Device Telemetry Gateway
+ * Project DucksPanel - IoT Device Telemetry Gateway
  * Handles real-time binary streams from remote sensor nodes.
  */
 
@@ -51,7 +51,7 @@ const SYSTEM_DEFAULTS = {
     cfWorkerName: "",
     isPaused: false,
     silentAlerts: false,
-    githubRepo: "itsyebekhe/nahan",
+    githubRepo: "sep5ehr/DucksPanel",
     nameStrategy: "default",
     namePrefix: "Core",
     tgBotLang: "fa",
@@ -318,7 +318,7 @@ function isAuthorized(request, data) {
 
 function generateApiKey(name) {
     const id = crypto.randomUUID();
-    const raw = `nahan_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+    const raw = `ducks_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
     const key = raw;
     return {
         id,
@@ -498,7 +498,7 @@ export default {
 
             if (!isTelemetryStream) {
                 if (reqPath === routes.dash) {
-                    const dashboardUrl = env.DASHBOARD_URL || 'https://raw.githubusercontent.com/itsyebekhe/nahan/main/dashboard.html';
+                    const dashboardUrl = env.DASHBOARD_URL || 'https://raw.githubusercontent.com/sep5ehr/DucksPanel/main/dashboard.html';
                     try {
                         const resp = await fetch(dashboardUrl);
                         let html = await resp.text();
@@ -635,7 +635,7 @@ export default {
 
                     if (isRealBrowser && !isCustomUaAllowed) {
                         if (isValidUser) {
-                            const subscriptionUrl = env.SUBSCRIPTION_URL || 'https://raw.githubusercontent.com/itsyebekhe/nahan/main/subscription.html';
+                            const subscriptionUrl = env.SUBSCRIPTION_URL || 'https://raw.githubusercontent.com/sep5ehr/DucksPanel/main/subscription.html';
                             try {
                                 const resp = await fetch(subscriptionUrl);
                                 let html = await resp.text();
@@ -938,7 +938,7 @@ export default {
         try {
             await loadSysConfig(env, ctx);
             if (sysConfig.autoUpdate && sysConfig.cfAccountId && sysConfig.cfApiToken && sysConfig.cfWorkerName) {
-                const repo = (sysConfig.githubRepo || "itsyebekhe/nahan")
+                const repo = (sysConfig.githubRepo || "sep5ehr/DucksPanel")
                     .replace(/https?:\/\/github\.com\//, "")
                     .trim();
                 let remoteVer = null;
@@ -1147,7 +1147,6 @@ async function loadSysConfig(env, ctx = null) {
     }
     sysConfig.customRelay = backupIpCache ?? env.RELAY_IP ?? "";
 }
-
 async function fetchCloudflareUsage(accountId, apiToken) {
     if (!accountId || !apiToken) return null;
     try {
@@ -1848,7 +1847,7 @@ async function handleUpdateApi(request, env, ctx) {
         const accountId = sysConfig.cfAccountId;
         const apiToken = sysConfig.cfApiToken;
         const workerName = sysConfig.cfWorkerName;
-        const repo = (sysConfig.githubRepo || "itsyebekhe/nahan")
+        const repo = (sysConfig.githubRepo || "sep5ehr/DucksPanel")
             .replace(/https?:\/\/github\.com\//, "")
             .trim();
 
@@ -2227,7 +2226,6 @@ async function handleApiKeys(request, env, ctx) {
         );
     }
 }
-
 async function handleAuth(request, hostName, ctx, env) {
     try {
         const data = await request.json();
@@ -2648,7 +2646,7 @@ async function handleSyncPanel(request, env, ctx) {
 const botI18n = {
     en: {
         welcome:
-            "🤖 **Welcome to Nahan Gateway Bot**\nSelect your option below to manage your system:",
+            "🤖 **Welcome to DucksPanel Bot**\nSelect your option below to manage your system:",
         status: "System Status",
         users: "Subscribers",
         metrics: "Gateway Health",
@@ -2796,7 +2794,7 @@ const botI18n = {
     },
     fa: {
         welcome:
-            "🤖 **به ربات ترانزیت نهان خوش آمدید**\nجهت مدیریت سیستم نظارتی خود یکی از گزینه‌های زیر را انتخاب نمایید:",
+            "🤖 **به ربات DucksPanel خوش آمدید**\nجهت مدیریت سیستم نظارتی خود یکی از گزینه‌های زیر را انتخاب نمایید:",
         status: "وضعیت سیستم",
         users: "مدیریت مشترکین",
         metrics: "سلامت درگاه شبکه",
@@ -6052,7 +6050,6 @@ async function handleTelegramWebhook(request, env, hostName, ctx) {
         return new Response("OK", { status: 200 });
     }
 }
-
 async function processTelemetryStream(env, ctx, wsRelayIdx) {
     const [client, webSocket] = Object.values(new WebSocketPair());
     webSocket.accept();
@@ -6479,7 +6476,63 @@ function getFakeConfigNames(targetSub = null) {
         });
 }
 
-function getCleanIps(hostName, userCleanIps = null) {
+// ─── DNS Resolver for BPB-style auto IP extraction ───
+const dnsResolveCache = new Map();
+const DNS_CACHE_TTL = 300000; // 5 minutes
+
+async function resolveHostToIps(hostname) {
+    // If it's already an IP, return as-is
+    if (!hostname || /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(hostname)) {
+        return [hostname];
+    }
+    if (hostname.includes(":") && !hostname.includes(".")) {
+        // IPv6
+        return [hostname];
+    }
+
+    // Check cache
+    let cached = dnsResolveCache.get(hostname);
+    if (cached && Date.now() - cached.ts < DNS_CACHE_TTL) {
+        return cached.ips;
+    }
+
+    let ips = [];
+    try {
+        // IPv4
+        let res4 = await fetch(
+            `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=A`,
+            { headers: { accept: "application/dns-json" } },
+        );
+        let json4 = await res4.json();
+        if (json4.Answer) {
+            json4.Answer.filter((a) => a.type === 1).forEach((a) => {
+                if (a.data && !ips.includes(a.data)) ips.push(a.data);
+            });
+        }
+
+        // IPv6
+        let res6 = await fetch(
+            `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=AAAA`,
+            { headers: { accept: "application/dns-json" } },
+        );
+        let json6 = await res6.json();
+        if (json6.Answer) {
+            json6.Answer.filter((a) => a.type === 28).forEach((a) => {
+                if (a.data && !ips.includes(a.data)) ips.push(a.data);
+            });
+        }
+    } catch (e) {
+        // On error, return the hostname itself
+    }
+
+    // If no IP found, return the hostname itself
+    if (ips.length === 0) ips = [hostname];
+
+    dnsResolveCache.set(hostname, { ips, ts: Date.now() });
+    return ips;
+}
+
+async function getCleanIps(hostName, userCleanIps = null) {
     let rawIps = userCleanIps || sysConfig.cleanIps;
     let ips = rawIps
         ? rawIps
@@ -6490,14 +6543,21 @@ function getCleanIps(hostName, userCleanIps = null) {
               })
               .filter(Boolean)
         : [];
-    if (ips.length === 0)
-        ips = [
-            hostName.endsWith(".pages.dev") ? sysConfig.metricNode : hostName,
-        ];
+    if (ips.length === 0) {
+        // ── BPB-style: resolve Worker domain to real IPs + speedtest.net ──
+        let baseHost = hostName.endsWith(".pages.dev")
+            ? sysConfig.metricNode
+            : hostName;
+        let resolvedIps = await resolveHostToIps(baseHost);
+        ips = [...resolvedIps, "www.speedtest.net"];
+        if (ips.length === 1 && ips[0] === "www.speedtest.net") {
+            ips.unshift(baseHost);
+        }
+    }
     return ips;
 }
 
-function getCleanIpsWithNames(hostName, userCleanIps = null) {
+async function getCleanIpsWithNames(hostName, userCleanIps = null) {
     let rawIps = userCleanIps || sysConfig.cleanIps;
     let entries = rawIps
         ? rawIps
@@ -6512,15 +6572,15 @@ function getCleanIpsWithNames(hostName, userCleanIps = null) {
               })
               .filter(Boolean)
         : [];
-    if (entries.length === 0)
-        entries = [
-            {
-                ip: hostName.endsWith(".pages.dev")
-                    ? sysConfig.metricNode
-                    : hostName,
-                name: "",
-            },
-        ];
+    if (entries.length === 0) {
+        // ── BPB-style: Worker domain's resolved IPs + speedtest.net ──
+        let baseHost = hostName.endsWith(".pages.dev")
+            ? sysConfig.metricNode
+            : hostName;
+        let resolvedIps = await resolveHostToIps(baseHost);
+        entries = resolvedIps.map((ip) => ({ ip, name: "" }));
+        entries.push({ ip: "www.speedtest.net", name: "Speedtest" });
+    }
     return entries;
 }
 
@@ -6704,14 +6764,15 @@ function validateNameStrategy(strategy) {
 
 async function preloadIpFlags(profiles, hostNames) {
     let uniqueIps = new Set();
-    profiles.forEach((p) => {
-        hostNames.forEach((h) => {
-            getCleanIps(h, p.cleanIp).forEach((ip) => uniqueIps.add(ip));
-        });
+    for (const p of profiles) {
+        for (const h of hostNames) {
+            const ips = await getCleanIps(h, p.cleanIp);
+            ips.forEach((ip) => uniqueIps.add(ip));
+        }
         if (p.proxyIp) {
             getProxyIpsArray(p.proxyIp).forEach((ip) => uniqueIps.add(ip));
         }
-    });
+    }
     if (sysConfig.backupRelay) {
         getProxyIpsArray(sysConfig.backupRelay).forEach((ip) =>
             uniqueIps.add(ip),
@@ -7208,7 +7269,7 @@ async function buildUriProfile(
         );
     });
 
-    profiles.forEach((p) => {
+    for (const p of profiles) {
         let pips = getEffectivePips(p);
         let effectiveMode = p.userMode || sysConfig.mode;
         let effectivePorts = p.userPorts
@@ -7222,8 +7283,8 @@ async function buildUriProfile(
         let configIndex = 0;
         let profileHostNames = getProfileHostNames(hostName, p);
 
-        profileHostNames.forEach((hName) => {
-            let ipEntries = getCleanIpsWithNames(hName, p.cleanIp);
+        for (const hName of profileHostNames) {
+            let ipEntries = await getCleanIpsWithNames(hName, p.cleanIp);
             let allIps = ipEntries.map((e) => e.ip);
             let ips = calcEffectiveIps(
                 allIps,
@@ -7236,14 +7297,14 @@ async function buildUriProfile(
             ipEntries.forEach((e) => {
                 ipNameMap[e.ip] = e.name;
             });
-            effectivePorts.forEach((port) => {
+            for (const port of effectivePorts) {
                 let sec = getTransportParams(port);
                 let extBase = `encryption=none&security=${sec}&sni=${hName}&fp=${sysConfig.agent}&type=ws&host=${hName}&path=${reqPath}`;
                 if (sysConfig.enableOpt2) extBase += `&pbk=enabled`;
                 extBase += `&allowInsecure=${allowInsecure ? "1" : "0"}`;
-                ips.forEach((ip) => {
+                for (const ip of ips) {
                     let _pips = pips.length > 0 ? pips : [null];
-                    _pips.forEach((selectedProxyIp) => {
+                    for (const selectedProxyIp of _pips) {
                     let ipName = ipNameMap[ip] || "";
                     let vName = getConfigName(
                         "alpha",
@@ -7367,11 +7428,11 @@ async function buildUriProfile(
                         }
                     }
                     configIndex++;
-                    });
-                });
-            });
-        });
-    });
+                    }
+                }
+            }
+        }
+    }
     // ─── Upstream: prepend upstream URI ───
     let parsedUpstream = parseVlessUri(sysConfig.upstreamUri);
     if (parsedUpstream) {
@@ -7386,7 +7447,7 @@ let singboxTemplate = null;
 let VTemplate = null;
 
 async function fetchTemplates(env) {
-    const repo = sysConfig.githubRepo || "itsyebekhe/nahan";
+    const repo = sysConfig.githubRepo || "sep5ehr/DucksPanel";
     if (!clashTemplate) {
         try {
             let res = await fetch(`https://raw.githubusercontent.com/${repo}/main/clash.yml`);
@@ -7474,7 +7535,7 @@ async function buildYamlProfile(hostName, targetSub = null, allowInsecure = fals
         return newName;
     };
 
-    profiles.forEach((p) => {
+    for (const p of profiles) {
         let pips = getEffectivePips(p);
         let effectiveMode = p.userMode || sysConfig.mode;
         let effectivePorts = p.userPorts
@@ -7488,8 +7549,8 @@ async function buildYamlProfile(hostName, targetSub = null, allowInsecure = fals
         let configIndex = 0;
         let profileHostNames = getProfileHostNames(hostName, p);
 
-        profileHostNames.forEach((hName) => {
-            let ipEntries = getCleanIpsWithNames(hName, p.cleanIp);
+        for (const hName of profileHostNames) {
+            let ipEntries = await getCleanIpsWithNames(hName, p.cleanIp);
             let allIps = ipEntries.map((e) => e.ip);
             let ips = calcEffectiveIps(
                 allIps,
@@ -7502,11 +7563,11 @@ async function buildYamlProfile(hostName, targetSub = null, allowInsecure = fals
             ipEntries.forEach((e) => {
                 ipNameMap[e.ip] = e.name;
             });
-            effectivePorts.forEach((port) => {
+            for (const port of effectivePorts) {
                 let sec = getTransportParams(port) === "tls" ? "true" : "false";
-                ips.forEach((ip) => {
+                for (const ip of ips) {
                     let _pips = pips.length > 0 ? pips : [null];
-                    _pips.forEach((selectedProxyIp) => {
+                    for (const selectedProxyIp of _pips) {
                     let ipName = ipNameMap[ip] || "";
                     if (effectiveMode === "alpha" || effectiveMode === "both") {
                         let vName = getConfigName(
@@ -7685,11 +7746,11 @@ async function buildYamlProfile(hostName, targetSub = null, allowInsecure = fals
                         }
                         configIndex++;
                     }
-                    });
-                });
-            });
-        });
-    });
+                    }
+                }
+            }
+        }
+    }
 
     // ─── Upstream chaining: add upstream proxy to YAML ───
     let parsedUpstreamYaml = parseVlessUri(sysConfig.upstreamUri);
@@ -7940,7 +8001,7 @@ async function buildClashJsonProfile(
         return newName;
     };
 
-    profiles.forEach((p) => {
+    for (const p of profiles) {
         let pips = getEffectivePips(p);
         let effectiveMode = p.userMode || sysConfig.mode;
         let effectivePorts = p.userPorts
@@ -7954,8 +8015,8 @@ async function buildClashJsonProfile(
         let configIndex = 0;
         let profileHostNames = getProfileHostNames(hostName, p);
 
-        profileHostNames.forEach((hName) => {
-            let ipEntries = getCleanIpsWithNames(hName, p.cleanIp);
+        for (const hName of profileHostNames) {
+            let ipEntries = await getCleanIpsWithNames(hName, p.cleanIp);
             let allIps = ipEntries.map((e) => e.ip);
             let ips = calcEffectiveIps(
                 allIps,
@@ -7968,15 +8029,15 @@ async function buildClashJsonProfile(
             ipEntries.forEach((e) => {
                 ipNameMap[e.ip] = e.name;
             });
-            effectivePorts.forEach((port) => {
+            for (const port of effectivePorts) {
                 let sec = getTransportParams(port) === "tls";
-                ips.forEach((ip) => {
+                for (const ip of ips) {
                     let isVless =
                         effectiveMode === "alpha" || effectiveMode === "both";
                     let isTrojan =
                         effectiveMode === "beta" || effectiveMode === "both";
                     let _pips = pips.length > 0 ? pips : [null];
-                    _pips.forEach((selectedProxyIp) => {
+                    for (const selectedProxyIp of _pips) {
                     let ipName = ipNameMap[ip] || "";
 
                     if (isVless) {
@@ -8261,11 +8322,11 @@ async function buildClashJsonProfile(
                         }
                         configIndex++;
                     }
-                    });
-                });
-            });
-        });
-    });
+                    }
+                }
+            }
+        }
+    }
 
     if (dynamicTags.length === 0) { dynamicTags.push("direct"); }
 
@@ -8465,7 +8526,7 @@ async function buildVJsonProfile(hostName, targetSub = null, allowInsecure = fal
         let c = nameCounts[baseName]; nameCounts[baseName] = c + 1; return baseName + '-' + c;
     };
 
-    profiles.forEach((p) => {
+    for (const p of profiles) {
         let maxCfg = p.maxConfigs || 0;
         let pips = [];
         if (p.relayIps && p.relayIps.length > 0) pips = [...p.relayIps];
@@ -8474,73 +8535,73 @@ async function buildVJsonProfile(hostName, targetSub = null, allowInsecure = fal
         }
         
         let hostNamesToUse = getProfileHostNames(hostName, p);
-        hostNamesToUse.forEach(hName => {
-            p.ipLists.forEach(ipList => {
-                let ips = ipList.ips;
-                let effectiveMode = ipList.mode || sysConfig.mode || "both";
-                let effectivePorts = (ipList.ports && ipList.ports.length > 0) ? ipList.ports : ports;
-                if (maxCfg > 0) ips = calcEffectiveIps(ips, maxCfg, effectiveMode, effectivePorts, pips.length);
-                let ipNameMap = {};
-                if (ipList.entries) ipList.entries.forEach(e => ipNameMap[e.ip] = e.name);
-                
-                effectivePorts.forEach(port => {
-                    let sec = (getTransportParams(port) === "tls") ? "tls" : "none";
-                    ips.forEach(ip => {
-                        let _pips = pips.length > 0 ? pips : [null];
-                        _pips.forEach((selectedProxyIp) => {
-                        let ipName = ipNameMap[ip] || "";
+        for (const hName of hostNamesToUse) {
+            // Use getCleanIpsWithNames to get BPB-style IPs
+            let ipEntries = await getCleanIpsWithNames(hName, p.cleanIp);
+            let ips = ipEntries.map(e => e.ip);
+            let ipNameMap = {};
+            ipEntries.forEach(e => ipNameMap[e.ip] = e.name);
+            let effectiveMode = p.userMode || sysConfig.mode || "both";
+            let effectivePorts = (p.userPorts && p.userPorts.split(",").length > 0) ? p.userPorts.split(",").map(s => s.trim()).filter(Boolean) : ports;
+            if (maxCfg > 0) ips = calcEffectiveIps(ips, maxCfg, effectiveMode, effectivePorts, pips.length);
+            
+            for (const port of effectivePorts) {
+                let sec = (getTransportParams(port) === "tls") ? "tls" : "none";
+                for (const ip of ips) {
+                    let _pips = pips.length > 0 ? pips : [null];
+                    for (const selectedProxyIp of _pips) {
+                    let ipName = ipNameMap[ip] || "";
+                    
+                    if (effectiveMode === "alpha" || effectiveMode === "both") {
+                        let tag = getUniqueName(getConfigName("alpha", p.name, port, hName, ip, selectedProxyIp, configIndex, ipName));
+                        let configUuid = generateConfigUuid(p.id, configIndex);
+                        let randomJunk = Array.from({length:11}, ()=> "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random()*62)]).join("");
+                        let payload = { junk: randomJunk, protocol: "vl", mode: "proxyip", panelIPs: [], relayIdx: configIndex };
+                        let path = "/" + btoa(JSON.stringify(payload));
                         
-                        if (effectiveMode === "alpha" || effectiveMode === "both") {
-                            let tag = getUniqueName(getConfigName("alpha", p.name, port, hName, ip, selectedProxyIp, configIndex, ipName));
-                            let configUuid = generateConfigUuid(p.id, configIndex);
-                            let randomJunk = Array.from({length:11}, ()=> "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random()*62)]).join("");
-                            let payload = { junk: randomJunk, protocol: "vl", mode: "proxyip", panelIPs: [], relayIdx: configIndex };
-                            let path = "/" + btoa(JSON.stringify(payload));
-                            
-                            let ob = {
-                                tag: tag,
-                                protocol: "vless",
-                                settings: {
-                                    vnext: [{ address: ip, port: parseInt(port), users: [{ id: configUuid, encryption: "none" }] }]
-                                },
-                                streamSettings: {
-                                    network: "ws",
-                                    security: sec,
-                                    tlsSettings: sec === "tls" ? { serverName: hName, allowInsecure: allowInsecure } : undefined,
-                                    wsSettings: { path: path, headers: { Host: hName } }
-                                }
-                            };
-                            outboundsArr.push(ob);
-                        }
+                        let ob = {
+                            tag: tag,
+                            protocol: "vless",
+                            settings: {
+                                vnext: [{ address: ip, port: parseInt(port), users: [{ id: configUuid, encryption: "none" }] }]
+                            },
+                            streamSettings: {
+                                network: "ws",
+                                security: sec,
+                                tlsSettings: sec === "tls" ? { serverName: hName, allowInsecure: allowInsecure } : undefined,
+                                wsSettings: { path: path, headers: { Host: hName } }
+                            }
+                        };
+                        outboundsArr.push(ob);
+                    }
+                    
+                    if (effectiveMode === "beta" || effectiveMode === "both") {
+                        let tag = getUniqueName(getConfigName("beta", p.name, port, hName, ip, selectedProxyIp, configIndex, ipName));
+                        let randomJunk = Array.from({length:11}, ()=> "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random()*62)]).join("");
+                        let payload = { junk: randomJunk, protocol: "tr", mode: "proxyip", panelIPs: [], relayIdx: configIndex };
+                        let path = "/" + btoa(JSON.stringify(payload));
                         
-                        if (effectiveMode === "beta" || effectiveMode === "both") {
-                            let tag = getUniqueName(getConfigName("beta", p.name, port, hName, ip, selectedProxyIp, configIndex, ipName));
-                            let randomJunk = Array.from({length:11}, ()=> "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random()*62)]).join("");
-                            let payload = { junk: randomJunk, protocol: "tr", mode: "proxyip", panelIPs: [], relayIdx: configIndex };
-                            let path = "/" + btoa(JSON.stringify(payload));
-                            
-                            let ob = {
-                                tag: tag,
-                                protocol: "trojan",
-                                settings: {
-                                    servers: [{ address: ip, port: parseInt(port), password: p.id }]
-                                },
-                                streamSettings: {
-                                    network: "ws",
-                                    security: sec,
-                                    tlsSettings: sec === "tls" ? { serverName: hName, allowInsecure: allowInsecure } : undefined,
-                                    wsSettings: { path: path, headers: { Host: hName } }
-                                }
-                            };
-                            outboundsArr.push(ob);
-                        }
-                        configIndex++;
-                    });
-                    });
-                });
-            });
-        });
-    });
+                        let ob = {
+                            tag: tag,
+                            protocol: "trojan",
+                            settings: {
+                                servers: [{ address: ip, port: parseInt(port), password: p.id }]
+                            },
+                            streamSettings: {
+                                network: "ws",
+                                security: sec,
+                                tlsSettings: sec === "tls" ? { serverName: hName, allowInsecure: allowInsecure } : undefined,
+                                wsSettings: { path: path, headers: { Host: hName } }
+                            }
+                        };
+                        outboundsArr.push(ob);
+                    }
+                    configIndex++;
+                    }
+                }
+            }
+        }
+    }
 
     // ─── Upstream chaining: add upstream outbound ───
     let parsedUpstream = parseVlessUri(sysConfig.upstreamUri);
@@ -8637,7 +8698,7 @@ async function buildSingBoxJsonProfile(hostName, targetSub = null, allowInsecure
         return newName;
     };
 
-    profiles.forEach((p) => {
+    for (const p of profiles) {
         let pips = getEffectivePips(p);
         let effectiveMode = p.userMode || sysConfig.mode;
         let effectivePorts = p.userPorts
@@ -8651,8 +8712,8 @@ async function buildSingBoxJsonProfile(hostName, targetSub = null, allowInsecure
         let configIndex = 0;
         let profileHostNames = getProfileHostNames(hostName, p);
 
-        profileHostNames.forEach((hName) => {
-            let ipEntries = getCleanIpsWithNames(hName, p.cleanIp);
+        for (const hName of profileHostNames) {
+            let ipEntries = await getCleanIpsWithNames(hName, p.cleanIp);
             let allIps = ipEntries.map((e) => e.ip);
             let ips = calcEffectiveIps(
                 allIps,
@@ -8665,15 +8726,15 @@ async function buildSingBoxJsonProfile(hostName, targetSub = null, allowInsecure
             ipEntries.forEach((e) => {
                 ipNameMap[e.ip] = e.name;
             });
-            effectivePorts.forEach((port) => {
+            for (const port of effectivePorts) {
                 let sec = getTransportParams(port) === "tls";
-                ips.forEach((ip) => {
+                for (const ip of ips) {
                     let isVless =
                         effectiveMode === "alpha" || effectiveMode === "both";
                     let isTrojan =
                         effectiveMode === "beta" || effectiveMode === "both";
                     let _pips = pips.length > 0 ? pips : [null];
-                    _pips.forEach((selectedProxyIp) => {
+                    for (const selectedProxyIp of _pips) {
                     let ipName = ipNameMap[ip] || "";
 
                     if (isVless) {
@@ -8946,11 +9007,11 @@ async function buildSingBoxJsonProfile(hostName, targetSub = null, allowInsecure
                         }
                         configIndex++;
                     }
-                    });
-                });
-            });
-        });
-    });
+                    }
+                }
+            }
+        }
+    }
 
     if (dynamicTags.length === 0) {
         dynamicTags.push("direct");
